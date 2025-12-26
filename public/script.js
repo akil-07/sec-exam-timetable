@@ -5,75 +5,28 @@ const loading = document.getElementById('loading');
 const resultsArea = document.getElementById('resultsArea');
 const errorMsg = document.getElementById('errorMsg');
 
-// State for data
-let theoryData = null;
-let practicalData = null;
-let mappingData = {};
-let isDataLoaded = false;
+// State
+let database = null;
 
-// Initialize and Load Data
-async function loadData() {
+// Initialize
+async function initApp() {
     try {
         loading.classList.remove('hidden');
-        document.querySelector('#loading p').textContent = "Loading exam databases...";
+        document.querySelector('#loading p').textContent = "Loading database...";
 
-        // Fetch all files in parallel
-        const [theoryBuf, practicalBuf, mappingBuf] = await Promise.all([
-            fetch('theory.xlsx').then(res => res.arrayBuffer()),
-            fetch('practical.xlsx').then(res => res.arrayBuffer()),
-            fetch('mapping.xlsx').then(res => res.arrayBuffer())
-        ]);
+        const response = await fetch('data.json');
+        if (!response.ok) throw new Error("Failed to load data");
 
-        // Process Mapping
-        const mapWb = XLSX.read(mappingBuf, { type: 'array' });
-        const mapSheet = mapWb.Sheets[mapWb.SheetNames[0]];
-        const mapJson = XLSX.utils.sheet_to_json(mapSheet, { header: 1 });
+        database = await response.json();
 
-        // Build Mapping Dictionary
-        // Index 3: Ref, Index 4: Reg
-        mapJson.forEach(row => {
-            if (row.length > 4) {
-                const ref = String(row[3]).trim();
-                const reg = String(row[4]).trim();
-                if (ref && reg && ref !== 'Reference Number') {
-                    mappingData[ref] = reg;
-                }
-            }
-        });
-
-        // Process Exams
-        const thWb = XLSX.read(theoryBuf, { type: 'array' });
-        theoryData = XLSX.utils.sheet_to_json(thWb.Sheets[thWb.SheetNames[0]]);
-
-        const prWb = XLSX.read(practicalBuf, { type: 'array' });
-        practicalData = XLSX.utils.sheet_to_json(prWb.Sheets[prWb.SheetNames[0]]);
-
-        isDataLoaded = true;
         loading.classList.add('hidden');
-        document.querySelector('#loading p').textContent = "Fetching schedule..."; // Reset text
-        console.log("Data loaded successfully");
-
-    } catch (error) {
-        console.error("Error loading data:", error);
+        document.querySelector('#loading p').textContent = "Fetching schedule...";
+        console.log("Database loaded.");
+    } catch (e) {
+        console.error(e);
+        errorMsg.textContent = "Failed to load database. Please refresh.";
         loading.classList.add('hidden');
-        errorMsg.textContent = "Failed to load exam databases. Please refresh.";
     }
-}
-
-// Helper to filter exams
-function getStudentExams(regNo, data, type) {
-    const target = String(regNo).trim();
-    return data.filter(row => {
-        const r = row['Reg. No.'] ? String(row['Reg. No.']).trim() : '';
-        return r === target;
-    }).map(row => ({
-        date: row['Date'],
-        session: row['Session'],
-        courseCode: row['R - 2024'] || row['R - 2019'],
-        courseName: row['Course Name'],
-        location: type === 'practical' ? row['Location'] : 'N/A',
-        studentName: row['Student Name']
-    }));
 }
 
 async function fetchTimetable() {
@@ -88,38 +41,30 @@ async function fetchTimetable() {
         return;
     }
 
-    if (!isDataLoaded) {
-        await loadData();
-        if (!isDataLoaded) return; // Stop if load failed
+    if (!database) {
+        await initApp();
+        if (!database) return;
     }
 
-    // Client Side Search Logic
-    const regNo = mappingData[refNo];
+    loading.classList.remove('hidden');
 
-    if (!regNo) {
-        errorMsg.textContent = 'Invalid Reference Number. Please check and try again.';
-        return;
-    }
+    // Simulate small delay for UX
+    setTimeout(() => {
+        const student = database[refNo];
+        loading.classList.add('hidden');
 
-    const theory = getStudentExams(regNo, theoryData, 'theory');
-    const practical = getStudentExams(regNo, practicalData, 'practical');
+        if (!student) {
+            errorMsg.textContent = 'Invalid Reference Number. Please check and try again.';
+            return;
+        }
 
-    if (theory.length === 0 && practical.length === 0) {
-        errorMsg.textContent = 'No exams found for this student.';
-        return;
-    }
+        if (student.theory.length === 0 && student.practical.length === 0) {
+            errorMsg.textContent = 'No exams found for this student.';
+            // Still render the empty table so they see their name
+        }
 
-    // Get Name from first exam entry
-    let studentName = "";
-    if (theory.length > 0) studentName = theory[0].studentName;
-    else if (practical.length > 0) studentName = practical[0].studentName;
-
-    renderTimetable({
-        studentName,
-        regNo,
-        theory,
-        practical
-    });
+        renderTimetable(student);
+    }, 300);
 }
 
 function renderTimetable(data) {
@@ -182,5 +127,5 @@ if (searchInput) {
     });
 }
 
-// Prefetch data on load for speed
-loadData();
+// Init
+initApp();
