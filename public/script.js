@@ -1,16 +1,82 @@
-const API_URL = '/api/timetable';
 
 // DOM Elements
 const searchInput = document.getElementById('searchInput');
+const loading = document.getElementById('loading');
+const resultsArea = document.getElementById('resultsArea');
+const errorMsg = document.getElementById('errorMsg');
 
-// Initialize
-// Clean up any old listeners or UI from previous name toggles if any remained (conceptually)
+// State for data
+let theoryData = null;
+let practicalData = null;
+let mappingData = {};
+let isDataLoaded = false;
+
+// Initialize and Load Data
+async function loadData() {
+    try {
+        loading.classList.remove('hidden');
+        document.querySelector('#loading p').textContent = "Loading exam databases...";
+
+        // Fetch all files in parallel
+        const [theoryBuf, practicalBuf, mappingBuf] = await Promise.all([
+            fetch('theory.xlsx').then(res => res.arrayBuffer()),
+            fetch('practical.xlsx').then(res => res.arrayBuffer()),
+            fetch('mapping.xlsx').then(res => res.arrayBuffer())
+        ]);
+
+        // Process Mapping
+        const mapWb = XLSX.read(mappingBuf, { type: 'array' });
+        const mapSheet = mapWb.Sheets[mapWb.SheetNames[0]];
+        const mapJson = XLSX.utils.sheet_to_json(mapSheet, { header: 1 });
+
+        // Build Mapping Dictionary
+        // Index 3: Ref, Index 4: Reg
+        mapJson.forEach(row => {
+            if (row.length > 4) {
+                const ref = String(row[3]).trim();
+                const reg = String(row[4]).trim();
+                if (ref && reg && ref !== 'Reference Number') {
+                    mappingData[ref] = reg;
+                }
+            }
+        });
+
+        // Process Exams
+        const thWb = XLSX.read(theoryBuf, { type: 'array' });
+        theoryData = XLSX.utils.sheet_to_json(thWb.Sheets[thWb.SheetNames[0]]);
+
+        const prWb = XLSX.read(practicalBuf, { type: 'array' });
+        practicalData = XLSX.utils.sheet_to_json(prWb.Sheets[prWb.SheetNames[0]]);
+
+        isDataLoaded = true;
+        loading.classList.add('hidden');
+        document.querySelector('#loading p').textContent = "Fetching schedule..."; // Reset text
+        console.log("Data loaded successfully");
+
+    } catch (error) {
+        console.error("Error loading data:", error);
+        loading.classList.add('hidden');
+        errorMsg.textContent = "Failed to load exam databases. Please refresh.";
+    }
+}
+
+// Helper to filter exams
+function getStudentExams(regNo, data, type) {
+    const target = String(regNo).trim();
+    return data.filter(row => {
+        const r = row['Reg. No.'] ? String(row['Reg. No.']).trim() : '';
+        return r === target;
+    }).map(row => ({
+        date: row['Date'],
+        session: row['Session'],
+        courseCode: row['R - 2024'] || row['R - 2019'],
+        courseName: row['Course Name'],
+        location: type === 'practical' ? row['Location'] : 'N/A',
+        studentName: row['Student Name']
+    }));
+}
 
 async function fetchTimetable() {
-    const searchInput = document.getElementById('searchInput');
-    const loading = document.getElementById('loading');
-    const resultsArea = document.getElementById('resultsArea');
-    const errorMsg = document.getElementById('errorMsg');
     const refNo = searchInput.value.trim();
 
     // Reset UI
@@ -22,31 +88,45 @@ async function fetchTimetable() {
         return;
     }
 
-    loading.classList.remove('hidden');
-
-    try {
-        const response = await fetch(`${API_URL}?refNo=${encodeURIComponent(refNo)}`);
-        const data = await response.json();
-
-        loading.classList.add('hidden');
-
-        if (!response.ok) {
-            throw new Error(data.error || 'Failed to fetch timetable');
-        }
-
-        renderTimetable(data, refNo);
-    } catch (err) {
-        loading.classList.add('hidden');
-        errorMsg.textContent = err.message;
+    if (!isDataLoaded) {
+        await loadData();
+        if (!isDataLoaded) return; // Stop if load failed
     }
+
+    // Client Side Search Logic
+    const regNo = mappingData[refNo];
+
+    if (!regNo) {
+        errorMsg.textContent = 'Invalid Reference Number. Please check and try again.';
+        return;
+    }
+
+    const theory = getStudentExams(regNo, theoryData, 'theory');
+    const practical = getStudentExams(regNo, practicalData, 'practical');
+
+    if (theory.length === 0 && practical.length === 0) {
+        errorMsg.textContent = 'No exams found for this student.';
+        return;
+    }
+
+    // Get Name from first exam entry
+    let studentName = "";
+    if (theory.length > 0) studentName = theory[0].studentName;
+    else if (practical.length > 0) studentName = practical[0].studentName;
+
+    renderTimetable({
+        studentName,
+        regNo,
+        theory,
+        practical
+    });
 }
 
-function renderTimetable(data, refNo) {
+function renderTimetable(data) {
     const { studentName, regNo, theory, practical } = data;
 
     // Update Student Info
     document.getElementById('studentName').textContent = studentName || 'Student';
-    // Display the register number returned by the server, NOT the reference number used for search
     document.getElementById('displayRegNo').textContent = regNo;
 
     // Render Theory Table
@@ -101,3 +181,6 @@ if (searchInput) {
         }
     });
 }
+
+// Prefetch data on load for speed
+loadData();
