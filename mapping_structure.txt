@@ -1,0 +1,17 @@
+--- Inspecting 2025-2029 UG Name List with Reg.No and UMIS No. 20.12.2025.xlsx ---
+First 15 rows:
+[]
+["Office of the Controller of Examinations"]
+["2025 - 2029 Batch"]
+["UG Students Name List"]
+[null,null,null,null,null,null,null,null,"Date: 20.12.2025"]
+["Sl. No.","Program Code","Degree / Branch","Reference Number","Register Number","UMIS Number","Student Name","Gender","Aadhaar Number"]
+[1,"02","B.E. Biomedical Engineering",25019163,212225020001,"2503212212121001","ABINAIYAN V S","MALE",978805118792]
+[2,"02","B.E. Biomedical Engineering",25019213,212225020002,"2503212212122002","ABITHA S","FEMALE",420630737022]
+[3,"02","B.E. Biomedical Engineering",25018880,212225020003,"2503212212122003","AKSHAYA B","FEMALE",804741832339]
+[4,"02","B.E. Biomedical Engineering",25018848,212225020004,"2503212212122004","ARCHANA P","FEMALE",715566015516]
+[5,"02","B.E. Biomedical Engineering",25019143,212225020005,"2503212212121005","BALAMURUGAN S","MALE",590276954617]
+[6,"02","B.E. Biomedical Engineering",25015495,212225020006,"2503212212121006","BHAVAN G","MALE",784951730035]
+[7,"02","B.E. Biomedical Engineering",25014198,212225020007,"2503212212122007","DEEPSHIKHA PRAKASH","FEMALE",959546665741]
+[8,"02","B.E. Biomedical Engineering",25009171,212225020008,"2503212212121008","DIVYESH D V","MALE",623726136037]
+[9,"02","B.E. Biomedical Engineering",25018396,212225020009,"2503212212122009","DOVIYAVARSHINI B","FEMALE",814019495560]

@@ -1,0 +1,22 @@
+--- Inspecting All UG End Semester Theory Examination Time Table Nov 2025 I Sem (Term - II).xlsx ---
+First 5 rows:
+["Reg. No.","Student Name","Dept.","R - 2019","R - 2024","Course Name","Date","Session"]
+["212225020002","ABITHA S","BME","19EE301","EC2301","Electric Circuits and Networks","03.01.2026","FN"]
+["212225020002","ABITHA S","BME","19EN106","SH1106","English for Engineers","05.01.2026","FN"]
+["212225020003","AKSHAYA B","BME","19EE301","EC2301","Electric Circuits and Networks","03.01.2026","FN"]
+["212225020003","AKSHAYA B","BME","19EN106","SH1106","English for Engineers","05.01.2026","FN"]
+
+Sample Data (Row 6 of non-empty):
+["212225020004","ARCHANA P","BME","19EE301","EC2301","Electric Circuits and Networks","03.01.2026","FN"]
+
+--- Inspecting All UG End Semester Practical Examination Time Table Nov 2025 I Sem (Term - II).xlsx ---
+First 5 rows:
+["Reg. No.","Student Name","Dept.","Date","Session","R - 2019","R - 2024","Course Name","Location","Internal Examiner Name"]
+["212225020002","ABITHA S","BME","30.12.2025","FN","19EN106","SH1106","English for Engineers","5732-English Language Lab","TSSH231 - IMMANUEL G"]
+["212225020002","ABITHA S","BME","29.12.2025","AN","19EE301","EC2301","Electric Circuits and Networks","3851-ELECTRIC CIRCUIT ANALYSIS LAB","TSEC266 - SATYA GOPAL DINDA"]
+["212225020003","AKSHAYA B","BME","29.12.2025","FN","19EN106","SH1106","English for Engineers","5732-English Language Lab","TSSH025 - Sunitha Deva Kumari D"]
+["212225020003","AKSHAYA B","BME","29.12.2025","AN","19EE301","EC2301","Electric Circuits and Networks","3851-ELECTRIC CIRCUIT ANALYSIS LAB","TSEC266 - SATYA GOPAL DINDA"]
+
+Sample Data (Row 6 of non-empty):
+["212225020004","ARCHANA P","BME","29.12.2025","FN","19EN106","SH1106","English for Engineers","5732-English Language Lab","TSSH025 - Sunitha Deva Kumari D"]
+

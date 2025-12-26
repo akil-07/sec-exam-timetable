@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Timetable Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="glass-container">
+        <header>
+            <h1>Student Exam Portal</h1>
+            <p>Access your complete examination schedule instantly</p>
+        </header>
+
+        <section class="search-section">
+
+            <div class="input-group">
+                <input type="text" id="searchInput" placeholder="Enter Reference Number" autocomplete="off">
+                <button id="searchBtn" onclick="fetchTimetable()">
+                    <span>Get Timetable</span>
+                </button>
+            </div>
+            <div id="errorMsg" class="error-msg"></div>
+        </section>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Fetching schedule...</p>
+        </div>
+
+        <main id="resultsArea" class="hidden">
+            <div class="student-info-card">
+                <div class="info-label">Student Name</div>
+                <h2 id="studentName">--</h2>
+                <div class="info-label">Register Number</div>
+                <h3 id="displayRegNo">--</h3>
+            </div>
+
+            <div class="timetable-grid">
+                <section class="timetable-section theory-section">
+                    <div class="section-header">
+                        <div class="icon">📚</div>
+                        <h3>Theory Exams</h3>
+                    </div>
+                    <div class="table-container">
+                        <table id="theoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Session</th>
+                                    <th>Course Code</th>
+                                    <th>Course Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rows will be injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="timetable-section practical-section">
+                    <div class="section-header">
+                        <div class="icon">🧪</div>
+                        <h3>Practical Exams</h3>
+                    </div>
+                    <div class="table-container">
+                        <table id="practicalTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Session</th>
+                                    <th>Course Code</th>
+                                    <th>Subject & Location</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rows will be injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
