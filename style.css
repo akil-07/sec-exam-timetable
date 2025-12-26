@@ -133,51 +133,12 @@ header p {
     align-items: center;
 }
 
-.search-toggles {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.3rem;
-    border-radius: 12px;
-    border: 1px solid var(--glass-border);
-}
-
-.toggle-option {
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    color: var(--text-dim);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    user-select: none;
-}
-
-.toggle-option input {
-    display: none;
-}
-
-.toggle-option.active {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-}
-
-.toggle-option:hover:not(.active) {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-light);
-}
-
 .input-group {
     display: flex;
     width: 100%;
     position: relative;
     gap: 1rem;
 }
-
 
 input {
     flex: 1;
@@ -362,6 +323,17 @@ tr:hover {
 /* Utility */
 .hidden {
     display: none !important;
+}
+
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: rgba(99, 102, 241, 0.2);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.3);
 }
 
 @keyframes fadeIn {

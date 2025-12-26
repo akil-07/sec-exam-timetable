@@ -60,7 +60,6 @@ async function fetchTimetable() {
 
         if (student.theory.length === 0 && student.practical.length === 0) {
             errorMsg.textContent = 'No exams found for this student.';
-            // Still render the empty table so they see their name
         }
 
         renderTimetable(student);

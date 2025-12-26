@@ -20,18 +20,14 @@ const practicalData = readExcel(practicalFile);
 
 console.log("Processing data...");
 
-// 1. Build Mapping and Student Base
-const db = {}; // Key: Reference Number
+const db = {};
 
-// mapData structure: Row 9 (index 8) is header.
-// Index 3: Ref, Index 4: Reg, Index 6: Name
 mapData.forEach((row, idx) => {
     if (row && row.length > 4) {
         const ref = String(row[3]).trim();
         const reg = String(row[4]).trim();
         const name = row[6] ? String(row[6]).trim() : "Student";
 
-        // Validate
         if (ref && reg && ref !== 'Reference Number') {
             db[ref] = {
                 studentName: name,
@@ -43,16 +39,11 @@ mapData.forEach((row, idx) => {
     }
 });
 
-console.log(`Found ${Object.keys(db).length} students.`);
-
-// Helper to find student by regNo
-// We need a RegNo -> RefNo reverse lookup to easily slot exams
 const regToRef = {};
 Object.keys(db).forEach(ref => {
     regToRef[db[ref].regNo] = ref;
 });
 
-// 2. Add Theory Exams
 theoryData.forEach(row => {
     const reg = row['Reg. No.'] ? String(row['Reg. No.']).trim() : '';
     if (regToRef[reg]) {
@@ -66,7 +57,6 @@ theoryData.forEach(row => {
     }
 });
 
-// 3. Add Practical Exams
 practicalData.forEach(row => {
     const reg = row['Reg. No.'] ? String(row['Reg. No.']).trim() : '';
     if (regToRef[reg]) {
@@ -81,6 +71,6 @@ practicalData.forEach(row => {
     }
 });
 
-console.log("Writing public/data.json...");
-fs.writeFileSync('public/data.json', JSON.stringify(db));
+console.log("Writing data.json...");
+fs.writeFileSync('data.json', JSON.stringify(db));
 console.log("Done!");
