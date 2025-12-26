@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/timetable';
+const API_URL = '/api/timetable';
 
 // DOM Elements
 const searchInput = document.getElementById('searchInput');
