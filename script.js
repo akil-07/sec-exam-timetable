@@ -1,14 +1,11 @@
 
-// DOM Elements
 const searchInput = document.getElementById('searchInput');
 const loading = document.getElementById('loading');
 const resultsArea = document.getElementById('resultsArea');
 const errorMsg = document.getElementById('errorMsg');
 
-// State
 let database = null;
 
-// Initialize
 async function initApp() {
     try {
         loading.classList.remove('hidden');
@@ -32,7 +29,6 @@ async function initApp() {
 async function fetchTimetable() {
     const refNo = searchInput.value.trim();
 
-    // Reset UI
     errorMsg.textContent = '';
     resultsArea.classList.add('hidden');
 
@@ -48,7 +44,6 @@ async function fetchTimetable() {
 
     loading.classList.remove('hidden');
 
-    // Simulate small delay for UX
     setTimeout(() => {
         const student = database[refNo];
         loading.classList.add('hidden');
@@ -69,11 +64,9 @@ async function fetchTimetable() {
 function renderTimetable(data) {
     const { studentName, regNo, theory, practical } = data;
 
-    // Update Student Info
     document.getElementById('studentName').textContent = studentName || 'Student';
     document.getElementById('displayRegNo').textContent = regNo;
 
-    // Render Theory Table
     const theoryBody = document.querySelector('#theoryTable tbody');
     theoryBody.innerHTML = '';
 
@@ -92,7 +85,6 @@ function renderTimetable(data) {
         theoryBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-dim); padding: 2rem;">No theory exams scheduled</td></tr>';
     }
 
-    // Render Practical Table
     const practicalBody = document.querySelector('#practicalTable tbody');
     practicalBody.innerHTML = '';
 
@@ -117,7 +109,6 @@ function renderTimetable(data) {
     document.getElementById('resultsArea').classList.remove('hidden');
 }
 
-// Add enter key support
 if (searchInput) {
     searchInput.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
@@ -126,5 +117,4 @@ if (searchInput) {
     });
 }
 
-// Init
 initApp();
