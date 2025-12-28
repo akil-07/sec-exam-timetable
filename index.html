@@ -40,6 +40,12 @@
         </div>
 
         <main id="resultsArea" class="hidden">
+            <div class="actions-bar">
+                <button id="downloadBtn" class="download-btn">
+                    <span>Print / Save PDF</span>
+                    <span class="icon">🖨️</span>
+                </button>
+            </div>
             <div class="student-info-card">
                 <div class="info-label">Student Name</div>
                 <h2 id="studentName">--</h2>
@@ -93,6 +99,7 @@
         </main>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 

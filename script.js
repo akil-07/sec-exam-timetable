@@ -117,4 +117,13 @@ if (searchInput) {
     });
 }
 
+const downloadBtn = document.getElementById('downloadBtn');
+if (downloadBtn) {
+    downloadBtn.addEventListener('click', function () {
+        // Simple, robust fallback to system print dialog
+        // This allows the user to 'Save as PDF' with a correct filename and layout
+        window.print();
+    });
+}
+
 initApp();

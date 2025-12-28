@@ -369,3 +369,90 @@ tr:hover {
         width: 100%;
     }
 }
+
+.actions-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.5s ease;
+}
+
+.download-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: white;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--text-dim);
+    transform: translateY(-2px);
+}
+
+.download-btn .icon {
+    font-size: 1.2rem;
+}
+
+@media print {
+    .glass-container {
+        box-shadow: none;
+        border: none;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        background: white;
+    }
+
+    .actions-bar,
+    .search-section,
+    header p,
+    .background-blobs {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+
+    .student-info-card,
+    .timetable-section {
+        background: white;
+        color: black;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+
+    .timetable-section {
+        opacity: 1;
+        transform: none;
+        page-break-inside: avoid;
+    }
+
+    table th,
+    table td {
+        color: black;
+        border-bottom-color: #ccc;
+    }
+
+    #studentName,
+    #displayRegNo {
+        color: black;
+    }
+
+    .badge {
+        border-color: #000;
+        color: #000;
+        background: none;
+    }
+}
