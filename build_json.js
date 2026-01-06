@@ -66,7 +66,8 @@ practicalData.forEach(row => {
             session: row['Session'],
             courseCode: row['R - 2024'] || row['R - 2019'],
             courseName: row['Course Name'],
-            location: row['Location']
+            location: row['Location'],
+            staffName: row['Internal Examiner Name']
         });
     }
 });

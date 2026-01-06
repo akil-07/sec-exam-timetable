@@ -78,11 +78,12 @@ function renderTimetable(data) {
                 <td><span class="badge">${exam.session}</span></td>
                 <td style="font-family: monospace; color: var(--text-dim);">${exam.courseCode}</td>
                 <td>${exam.courseName}</td>
+                <td><span style="color: #ffeb3b; font-weight: 600;">${exam.hall || '-'}</span></td>
             `;
             theoryBody.appendChild(row);
         });
     } else {
-        theoryBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-dim); padding: 2rem;">No theory exams scheduled</td></tr>';
+        theoryBody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-dim); padding: 2rem;">No theory exams scheduled</td></tr>';
     }
 
     const practicalBody = document.querySelector('#practicalTable tbody');
@@ -99,11 +100,12 @@ function renderTimetable(data) {
                     <div style="font-weight: 500;">${exam.courseName}</div>
                     <div style="font-size: 0.85rem; color: var(--text-dim); margin-top: 4px;">📍 ${exam.location}</div>
                 </td>
+                <td><span style="color: #fff; font-weight: 500;">${exam.staffName || '-'}</span></td>
             `;
             practicalBody.appendChild(row);
         });
     } else {
-        practicalBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-dim); padding: 2rem;">No practical exams scheduled</td></tr>';
+        practicalBody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-dim); padding: 2rem;">No practical exams scheduled</td></tr>';
     }
 
     document.getElementById('resultsArea').classList.remove('hidden');
